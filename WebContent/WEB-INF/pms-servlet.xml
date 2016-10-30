@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/jee 
+	http://www.springframework.org/schema/jee/spring-jee.xsd
+	http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:annotation-driven enable-matrix-variables="true" />
+	<context:component-scan base-package="com.dxw.pms" />
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+
+	<jee:jndi-lookup id="myDataSource" 
+		jndi-name="java:comp/env/jdbc/pmsds" />
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="myDataSource" />
+		<property name="packagesToScan" value="com.dxw.pms.models" />
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+			</value>
+		</property>
+	</bean>
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut id="shedServiceMethods"
+			expression="execution(* com.dxw.pms.dal.ShedDao.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="shedServiceMethods" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="feedServiceMethods"
+			expression="execution(* com.dxw.pms.dal.FeedDao.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="feedServiceMethods" />
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut id="vendorServiceMethods"
+			expression="execution(* com.dxw.pms.dal.VendorDao.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="vendorServiceMethods" />
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut id="pigServiceMethods"
+			expression="execution(* com.dxw.pms.dal.PigDao.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pigServiceMethods" />
+	</aop:config>
+	
+	<aop:config>
+		<aop:pointcut id="userServiceMethods"
+			expression="execution(* com.dxw.pms.dal.UserDao.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="userServiceMethods" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="warehouseServiceMethods"
+			expression="execution(* com.dxw.pms.dal.WarehouseDao.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="warehouseServiceMethods" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="styServiceMethods"
+			expression="execution(* com.dxw.pms.dal.StyDao.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="styServiceMethods" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="feedLogServiceMethods"
+			expression="execution(* com.dxw.pms.dal.FeedLogDao.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="feedLogServiceMethods" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="pigLogServiceMethods"
+			expression="execution(* com.dxw.pms.dal.PigLogDao.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pigLogServiceMethods" />
+	</aop:config>
+	<aop:config>
+		<aop:pointcut id="updateServiceMethods"
+			expression="execution(* com.dxw.pms.dal.UpdateDao.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="updateServiceMethods" />
+	</aop:config>
+	
+	<bean id="persistenceExceptionTranslationPostProcessor"
+		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+</beans>

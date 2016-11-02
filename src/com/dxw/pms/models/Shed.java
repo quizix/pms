@@ -27,6 +27,9 @@ public class Shed {
 	@Column(name="name")
 	private String name;
 	
+	@Column(name="code")
+	private String code;
+	
 	@OneToMany(fetch = FetchType.EAGER)
 	@JoinColumn(name="shedId")
 	private List<Sty> sties;
@@ -73,5 +76,15 @@ public class Shed {
 
 	public void setWarehouses(List<Warehouse> warehouses) {
 		this.warehouses = warehouses;
+	}
+
+
+	public String getCode() {
+		return code;
+	}
+
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 }

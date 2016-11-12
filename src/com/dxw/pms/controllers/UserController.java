@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dxw.pms.beans.LoginUser;
+import com.dxw.pms.beans.Result;
 import com.dxw.pms.beans.ResultBean;
 import com.dxw.pms.dal.UserDao;
 import com.dxw.pms.models.User;
@@ -19,6 +20,7 @@ import com.pms.utils.CryptoUtils;
 @RequestMapping("api/v1/users")
 public class UserController {
 
+	private final static String ENCRYPT_KEY = "cestquoi1314"; 
 	@Autowired
 	private UserDao userDao;
 	
@@ -43,7 +45,6 @@ public class UserController {
 		ResultBean<User> result = new ResultBean<>();
 		User user = userDao.findByName(username);
 		String encrypedPassword = CryptoUtils.encode("cestquoi1314", password);
-		System.out.println(encrypedPassword);
 		if(user == null){
 			result.setResult(null);
 			result.setCode(ResultBean.RESULT_ERROR);
@@ -61,6 +62,40 @@ public class UserController {
 			}
 		}
 		return result;
+	}
+	
+	//Url：/user/changePassword
+	//Parameters: username, passwordOld, passwordNew 
+	@RequestMapping(value="/changePassword", method=RequestMethod.POST, 
+			produces=MediaType.APPLICATION_JSON_VALUE)
+	@ResponseBody
+	public ResultBean<Result> changePassword(@RequestParam String username,
+			@RequestParam String passwordOld, @RequestParam String passwordNew){
+		ResultBean<Result> bean = new ResultBean<>();
+		bean.setResult(null);
+		
+		User user = userDao.findByName(username);
+		String encrypedPasswordOld = CryptoUtils.encode(ENCRYPT_KEY, passwordOld);
+		if(user == null){
+			bean.setResult(null);
+			bean.setCode(ResultBean.RESULT_ERROR);
+			bean.setMessage("用户不存在!");
+		}
+		else{
+			if(!encrypedPasswordOld.equals(user.getPassword())){
+				bean.setResult(null);
+				bean.setCode(ResultBean.RESULT_ERROR);
+				bean.setMessage("旧密码不正确!");
+			}
+			else{
+				String encrypedPasswordNew = CryptoUtils.encode(ENCRYPT_KEY, passwordNew);
+				user.setPassword(encrypedPasswordNew);
+				userDao.updateUser(user);
+				bean.setCode(ResultBean.RESULT_SUCCESS);
+				bean.setMessage("修改密码成功！");
+			}
+		}
+		return bean;
 	}
 	
 }

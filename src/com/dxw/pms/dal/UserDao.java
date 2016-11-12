@@ -12,4 +12,6 @@ public interface UserDao {
 	User findByName(String name);
 	
 	List findAll();
+	
+	void updateUser(User user);
 }

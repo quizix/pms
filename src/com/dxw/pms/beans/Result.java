@@ -5,6 +5,9 @@ public class Result {
 
     private int errorCode;
 
+    public Result(){
+    	this(1, null);
+    }
     public Result(int errorCode, String errorMessage){
     	this.errorCode = errorCode;
     	this.errorMessage = errorMessage;

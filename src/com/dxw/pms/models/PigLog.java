@@ -84,8 +84,17 @@ public class PigLog {
     @Column(name = "operation")
     private Integer operation;
     
+    /**
+     * 详细信息
+     */
     @Column(name="detail")
     private String detail;
+    
+    /**
+     * 重量
+     */
+    @Column(name="weight")
+    private String weight;
 
 	public Integer getOperation() {
 		return operation;

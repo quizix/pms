@@ -101,7 +101,11 @@
 			expression="execution(* com.dxw.pms.dal.UpdateDao.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="updateServiceMethods" />
 	</aop:config>
-	
+	<aop:config>
+		<aop:pointcut id="purchaseOrderServiceMethods"
+			expression="execution(* com.dxw.pms.dal.PurchaseOrderDao.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="purchaseOrderServiceMethods" />
+	</aop:config>
 	<bean id="persistenceExceptionTranslationPostProcessor"
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 </beans>

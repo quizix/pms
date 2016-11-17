@@ -17,7 +17,7 @@ import com.dxw.pms.models.ShedLog;
 import com.pms.utils.TimeUtil;
 
 @Controller
-@RequestMapping("api/v1/shedLogs")
+@RequestMapping("api/v1/shedlogs")
 public class ShedLogController {
 
 	@Autowired

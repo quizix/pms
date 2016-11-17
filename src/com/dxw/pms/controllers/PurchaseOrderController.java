@@ -59,7 +59,7 @@ public class PurchaseOrderController {
 	@RequestMapping(value = "/finish", method = RequestMethod.POST, 
 			produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ActionResult getPurchaseOrder(@RequestParam Long purchaseOrderId/*, @RequestParam MultipartFile file*/) {
+	public ActionResult getPurchaseOrder(@RequestParam Long purchaseOrderId, @RequestParam MultipartFile file) {
 		ActionResult bean = new ActionResult();
 		bean.setTime(TimeUtil.getCurrentTimeStr());
 		try {
@@ -68,7 +68,7 @@ public class PurchaseOrderController {
 			if( purchaseOrder != null){
 				Date today = new Date();
 				String fileName = getFileName(today);
-				//saveFile(file, fileName);
+				saveFile(file, fileName);
 				
 				purchaseOrder.setExecutionImg(fileName);
 				purchaseOrder.setExecutionTime(today);

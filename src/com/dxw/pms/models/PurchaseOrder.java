@@ -55,10 +55,25 @@ public class PurchaseOrder {
     private Vendor vendor;
     
     /**
+     * 饲料品种
+     */
+    @ManyToOne()
+    @JoinColumn(name="feedId", insertable=false, updatable=false)
+    private Feed feed;
+    
+    /**
+     * 订单类型
+     * 1. 猪
+     * 2. 饲料
+     */
+    @Column
+    private int type;
+    
+    /**
      * 订单总数
      */
     @Column
-    private int number;
+    private float quantity;
     
     /**
      * 单只重量
@@ -71,6 +86,20 @@ public class PurchaseOrder {
 	
 	@Column
 	private Date modifyTime;
+	
+	/**
+	 * 订单完成时间
+	 * 如果非空，表示订单已经完成
+	 */
+	@Column
+	private Date executionTime;
+	
+	/**
+	 * 订单完成所上传的图片
+	 */
+	@Column
+	private String executionImg;
+	
 
 	public Long getId() {
 		return id;
@@ -104,12 +133,12 @@ public class PurchaseOrder {
 		this.vendor = vendor;
 	}
 
-	public int getNumber() {
-		return number;
+	public float getQuantity() {
+		return quantity;
 	}
 
-	public void setNumber(int number) {
-		this.number = number;
+	public void setQuantity(float quantity) {
+		this.quantity = quantity;
 	}
 
 	public float getWeight() {
@@ -135,5 +164,36 @@ public class PurchaseOrder {
 	public void setModifyTime(Date modifyTime) {
 		this.modifyTime = modifyTime;
 	}
-	
+
+	public Feed getFeed() {
+		return feed;
+	}
+
+	public void setFeed(Feed feed) {
+		this.feed = feed;
+	}
+
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public Date getExecutionTime() {
+		return executionTime;
+	}
+
+	public void setExecutionTime(Date executionTime) {
+		this.executionTime = executionTime;
+	}
+
+	public String getExecutionImg() {
+		return executionImg;
+	}
+
+	public void setExecutionImg(String executionImg) {
+		this.executionImg = executionImg;
+	}
 }

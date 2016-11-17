@@ -24,8 +24,7 @@
 		<property name="suffix" value=".jsp"></property>
 	</bean>
 
-	<jee:jndi-lookup id="myDataSource" 
-		jndi-name="java:comp/env/jdbc/pmsds" />
+	<jee:jndi-lookup id="myDataSource" jndi-name="java:comp/env/jdbc/pmsds" />
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="myDataSource" />
@@ -40,14 +39,14 @@
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
-	
-	
+
+
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<tx:method name="*" propagation="SUPPORTS" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
-	
+
 	<aop:config>
 		<aop:pointcut id="shedServiceMethods"
 			expression="execution(* com.dxw.pms.dal.ShedDao.*(..))" />
@@ -58,19 +57,19 @@
 			expression="execution(* com.dxw.pms.dal.FeedDao.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="feedServiceMethods" />
 	</aop:config>
-	
+
 	<aop:config>
 		<aop:pointcut id="vendorServiceMethods"
 			expression="execution(* com.dxw.pms.dal.VendorDao.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="vendorServiceMethods" />
 	</aop:config>
-	
+
 	<aop:config>
 		<aop:pointcut id="pigServiceMethods"
 			expression="execution(* com.dxw.pms.dal.PigDao.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="pigServiceMethods" />
 	</aop:config>
-	
+
 	<aop:config>
 		<aop:pointcut id="userServiceMethods"
 			expression="execution(* com.dxw.pms.dal.UserDao.*(..))" />
@@ -106,6 +105,17 @@
 			expression="execution(* com.dxw.pms.dal.PurchaseOrderDao.*(..))" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="purchaseOrderServiceMethods" />
 	</aop:config>
+	<aop:config>
+		<aop:pointcut id="shedLogServiceMethods"
+			expression="execution(* com.dxw.pms.dal.ShedLogDao.*(..))" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="shedLogServiceMethods" />
+	</aop:config>
 	<bean id="persistenceExceptionTranslationPostProcessor"
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- one of the properties available; the maximum file size in bytes -->
+		<property name="maxUploadSize" value="10000000" />
+	</bean>
 </beans>

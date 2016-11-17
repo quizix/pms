@@ -36,11 +36,8 @@ public class PigLog {
     @Column(name = "modifyTime")
     private Date modifyTime;
 
-    /**
-     * 猪种编号
-     */
-    @Column(name = "pigId")
-    private Long pigId;
+    @Column(name="purchaseOrderId")
+    private Long purchaseOrderId;
     
     /**
      * 源栏位
@@ -54,12 +51,6 @@ public class PigLog {
     @Column(name = "styIdTo")
     private Long styIdTo;
 
-    /**
-     * 供应商
-     */
-    @Column(name = "vendorId")
-    private Long vendorId;
-    
     
     @ManyToOne()
     @JoinColumn(name="userId",
@@ -94,7 +85,7 @@ public class PigLog {
      * 重量
      */
     @Column(name="weight")
-    private String weight;
+    private Float weight;
 
 	public Integer getOperation() {
 		return operation;
@@ -144,14 +135,6 @@ public class PigLog {
 		this.styIdTo = styIdTo;
 	}
 
-	public Long getVendorId() {
-		return vendorId;
-	}
-
-	public void setVendorId(Long vendorId) {
-		this.vendorId = vendorId;
-	}
-
 	public Long getUserId() {
 		return userId;
 	}
@@ -168,14 +151,6 @@ public class PigLog {
 		this.number = number;
 	}
 
-	public Long getPigId() {
-		return pigId;
-	}
-
-	public void setPigId(Long pigTypeId) {
-		this.pigId = pigTypeId;
-	}
-
 	public String getDetail() {
 		return detail;
 	}
@@ -190,5 +165,21 @@ public class PigLog {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public Float getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Float weight) {
+		this.weight = weight;
+	}
+
+	public Long getPurchaseOrderId() {
+		return purchaseOrderId;
+	}
+
+	public void setPurchaseOrderId(Long purchaseOrderId) {
+		this.purchaseOrderId = purchaseOrderId;
 	}
 }

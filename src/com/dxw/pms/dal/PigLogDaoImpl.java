@@ -1,5 +1,6 @@
 package com.dxw.pms.dal;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Criteria;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dxw.pms.models.PigLog;
+import com.dxw.pms.models.ShedLog;
 import com.dxw.pms.models.Sty;
 
 @Repository
@@ -19,6 +21,9 @@ public class PigLogDaoImpl implements PigLogDao {
 
 	@Autowired
 	StyDao styDao;
+	
+	@Autowired
+	ShedLogDao shedLogDao;
 
 	@Autowired
 	public PigLogDaoImpl(SessionFactory sessionFactory) {
@@ -29,7 +34,7 @@ public class PigLogDaoImpl implements PigLogDao {
 	public void add(PigLog pigLog) throws DbException {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-
+			Date date = new Date();
 			switch (pigLog.getOperation()) {
 			case 1:
 			// 入栏，需要调整目标栏位的数量
@@ -38,6 +43,10 @@ public class PigLogDaoImpl implements PigLogDao {
 				sty.setCurrentNumber(sty.getCurrentNumber() + pigLog.getNumber());
 				session.persist(sty);
 				pigLog.setDetail("入栏");
+				
+				Long shedId = sty.getShedId();
+				
+				addShedLog(shedId, date, pigLog.getNumber(), 0, 0, 0);
 			}
 
 				break;
@@ -59,6 +68,10 @@ public class PigLogDaoImpl implements PigLogDao {
 				sty.setCurrentNumber(sty.getCurrentNumber() - pigLog.getNumber());
 				session.persist(sty);
 				pigLog.setDetail("健康猪出栏");
+				
+				Long shedId = sty.getShedId();
+				
+				addShedLog(shedId, date, 0, 0, 0, pigLog.getNumber());
 			}
 				break;
 			case 4: {
@@ -66,6 +79,10 @@ public class PigLogDaoImpl implements PigLogDao {
 				sty.setCurrentNumber(sty.getCurrentNumber() - pigLog.getNumber());
 				session.persist(sty);
 				pigLog.setDetail("病猪出栏");
+				
+				Long shedId = sty.getShedId();
+				
+				addShedLog(shedId, date, 0, 0, pigLog.getNumber(), 0);
 			}
 				break;
 			case 5:
@@ -75,14 +92,47 @@ public class PigLogDaoImpl implements PigLogDao {
 				sty.setCurrentNumber(sty.getCurrentNumber() - pigLog.getNumber());
 				session.persist(sty);
 				pigLog.setDetail("死猪出栏");
+				
+				Long shedId = sty.getShedId();
+				
+				addShedLog(shedId, date, 0, pigLog.getNumber(), 0, 0);
 			}
 				break;
 			}
 			session.persist(pigLog);
+			
 			session.flush();
 		} catch (Exception ex) {
 			throw new DbException(ex.getMessage());
 		}
+	}
+	
+	private void addShedLog(Long shedId, Date date, int entryNumber, 
+			int deadDeliveryNumber, int illDeliveryNumber, int heathyDeliveryNumber){
+		ShedLog shedLog = shedLogDao.findByShedIdAndDate(shedId, date);
+		
+		if(shedLog == null){
+			shedLog = new ShedLog();
+			shedLog.setCreateTime(date);
+			shedLog.setModifyTime(date);
+			shedLog.setShedId(shedId);
+			shedLog.setIllDeliveryNumber(illDeliveryNumber);
+			shedLog.setDeadDeliveryNumber(deadDeliveryNumber);
+			shedLog.setEntryNumber(entryNumber);
+			shedLog.setHealthyDeliveryNumber(heathyDeliveryNumber);
+			shedLog.setStockNumber(entryNumber-deadDeliveryNumber-illDeliveryNumber
+					-heathyDeliveryNumber);
+		}
+		else{
+			shedLog.setModifyTime(date);
+			shedLog.setIllDeliveryNumber(shedLog.getIllDeliveryNumber() + illDeliveryNumber);
+			shedLog.setDeadDeliveryNumber(shedLog.getDeadDeliveryNumber() + deadDeliveryNumber);
+			shedLog.setEntryNumber(shedLog.getEntryNumber() + entryNumber);
+			shedLog.setHealthyDeliveryNumber(shedLog.getHealthyDeliveryNumber() +heathyDeliveryNumber);
+			shedLog.setStockNumber(shedLog.getStockNumber()+entryNumber-deadDeliveryNumber-illDeliveryNumber
+					-heathyDeliveryNumber);
+		}
+		shedLogDao.addOrUpdate(shedLog);
 	}
 
 	@Override

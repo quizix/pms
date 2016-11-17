@@ -37,28 +37,11 @@ public class FeedLog {
     private Date modifyTime;
 
     /**
-     * 饲料编号
-     */
-    @Column(name = "feedId")
-    private Long feedId;
-    
-    /**
-     * 饲料
-     */
-    @ManyToOne()
-    @JoinColumn(name="feedId",
-    		insertable = false, updatable = false)
-    private Feed feed;
-    
-    /**
      * 料仓
      */
     @Column(name = "warehouseId")
     private Long warehouseId;
 
-    @Column(name = "vendorId")
-    private Long vendorId;
-    
     @ManyToOne()
     @JoinColumn(name="userId",
     		insertable = false, updatable = false)
@@ -66,6 +49,9 @@ public class FeedLog {
     
     @Column(name = "userId")
     private Long userId;
+    
+    @Column(name="purchaseOrderId")
+    private Long purchaseOrderId;
 
     @Column(name = "quantity")
     protected float quantity;
@@ -97,28 +83,12 @@ public class FeedLog {
 		this.modifyTime = modifyTime;
 	}
 
-	public Long getFeedId() {
-		return feedId;
-	}
-
-	public void setFeedId(Long feedId) {
-		this.feedId = feedId;
-	}
-
 	public Long getWarehouseId() {
 		return warehouseId;
 	}
 
 	public void setWarehouseId(Long warehouseId) {
 		this.warehouseId = warehouseId;
-	}
-
-	public Long getVendorId() {
-		return vendorId;
-	}
-
-	public void setVendorId(Long vendorId) {
-		this.vendorId = vendorId;
 	}
 
 	public Long getUserId() {
@@ -153,11 +123,12 @@ public class FeedLog {
 		this.user = user;
 	}
 
-	public Feed getFeed() {
-		return feed;
+	public Long getPurchaseOrderId() {
+		return purchaseOrderId;
 	}
 
-	public void setFeed(Feed feed) {
-		this.feed = feed;
+	public void setPurchaseOrderId(Long purchaseOrderId) {
+		this.purchaseOrderId = purchaseOrderId;
 	}
+
 }

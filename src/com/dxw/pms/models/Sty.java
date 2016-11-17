@@ -56,12 +56,15 @@ public class Sty {
      */
     @Column(name="no")
     private int no;
-
+    
     /**
      * 猪的数量，并由此推断栏位状态
      */
     @Column(name="currentNumber")
     private int currentNumber;
+    
+    @Column
+    private Long shedId;
     
     
 	public Date getCreateTime() {
@@ -110,6 +113,14 @@ public class Sty {
 
 	public void setCurrentNumber(int currentNumber) {
 		this.currentNumber = currentNumber;
+	}
+
+	public Long getShedId() {
+		return shedId;
+	}
+
+	public void setShedId(Long shedId) {
+		this.shedId = shedId;
 	}
 }
 

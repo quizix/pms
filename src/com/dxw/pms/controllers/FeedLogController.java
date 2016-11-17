@@ -37,7 +37,7 @@ public class FeedLogController {
 	public ActionResult post(@RequestParam Long warehouseId,
 			 @RequestParam String purchaseCode,
 			@RequestParam float quantity, @RequestParam int operation,
-			@RequestParam Long feedId, @RequestParam Long userId,
+			@RequestParam Long purchaseOrderId, @RequestParam Long userId,
 			@RequestParam Long vendorId){
 		ActionResult result = new ActionResult();
 		FeedLog feedLog = new FeedLog();
@@ -48,14 +48,13 @@ public class FeedLogController {
 		
 		feedLog.setQuantity(quantity);
 		feedLog.setWarehouseId(warehouseId);
-		feedLog.setFeedId(feedId);
+		feedLog.setPurchaseOrderId(purchaseOrderId);
 		feedLog.setOperation(operation);
 		feedLog.setUserId(userId);
-		feedLog.setVendorId(vendorId);
 		try {
 			feedLogDao.add(feedLog);
 		} catch (DbException e) {
-			result.setCode(-1);
+			result.setCode(ActionResult.RESULT_ERROR);
 			result.setMessage(e.getMessage());
 		}
 		return result;

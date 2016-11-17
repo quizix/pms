@@ -38,7 +38,8 @@ public class PigLogController {
 			@RequestParam(required=false) Long pigId, 
 			@RequestParam int operation, @RequestParam int number,
 			@RequestParam(required=false) Long styIdFrom, @RequestParam(required=false) Long styIdTo,
-			@RequestParam Long userId, @RequestParam(required=false) Long vendorId){
+			@RequestParam Long userId, @RequestParam(required=false) Long purchaseOrderId,
+			@RequestParam(required=false) Float weight){
 		ActionResult result = new ActionResult();
 		PigLog pigLog = new PigLog();
 		
@@ -46,14 +47,14 @@ public class PigLogController {
 		pigLog.setCreateTime(now);
 		pigLog.setModifyTime(now);
 		
-		pigLog.setPigId(pigId);
-		
+		pigLog.setPurchaseOrderId(purchaseOrderId);
+		pigLog.setUserId(userId);
+
 		pigLog.setNumber(number);
 		pigLog.setOperation(operation);
 		pigLog.setStyIdFrom(styIdFrom);
 		pigLog.setStyIdTo(styIdTo);
-		pigLog.setUserId(userId);
-		pigLog.setVendorId(vendorId);
+		pigLog.setWeight(weight);
 
 		try {
 			pigLogDao.add(pigLog);

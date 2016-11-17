@@ -35,10 +35,8 @@ public class FeedLogController {
 			produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
 	public ActionResult post(@RequestParam Long warehouseId,
-			 @RequestParam String purchaseCode,
 			@RequestParam float quantity, @RequestParam int operation,
-			@RequestParam Long purchaseOrderId, @RequestParam Long userId,
-			@RequestParam Long vendorId){
+			@RequestParam Long purchaseOrderId, @RequestParam Long userId){
 		ActionResult result = new ActionResult();
 		FeedLog feedLog = new FeedLog();
 

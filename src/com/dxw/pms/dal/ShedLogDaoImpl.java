@@ -34,11 +34,11 @@ public class ShedLogDaoImpl implements ShedLogDao{
 	@Override
 	public ShedLog findByShedIdAndDate(Long shedId,Date date) {
 		Session session = sessionFactory.getCurrentSession();
-		Date normalizedDate = TimeUtil.getNormalizedDate(date);
 		
-		Query query = session.createQuery("from ShedLog where shedId=:shedId, date=:date");
-		query.setParameter("shedId", normalizedDate);
-		query.setParameter("date", normalizedDate);
+		Query query = session.createQuery("from ShedLog where shedId=:shedId and date=:date");
+		query.setParameter("shedId", shedId);
+		query.setParameter("date", date);
+		
 		return (ShedLog)query.uniqueResult();
 	}
 

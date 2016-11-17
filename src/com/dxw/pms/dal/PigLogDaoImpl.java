@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.dxw.pms.models.PigLog;
 import com.dxw.pms.models.ShedLog;
 import com.dxw.pms.models.Sty;
+import com.pms.utils.TimeUtil;
 
 @Repository
 public class PigLogDaoImpl implements PigLogDao {
@@ -34,7 +35,7 @@ public class PigLogDaoImpl implements PigLogDao {
 	public void add(PigLog pigLog) throws DbException {
 		try {
 			Session session = sessionFactory.getCurrentSession();
-			Date date = new Date();
+			Date date = TimeUtil.getNormalizedDate(new Date());
 			switch (pigLog.getOperation()) {
 			case 1:
 			// 入栏，需要调整目标栏位的数量
@@ -103,6 +104,7 @@ public class PigLogDaoImpl implements PigLogDao {
 			
 			session.flush();
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			throw new DbException(ex.getMessage());
 		}
 	}
@@ -115,6 +117,7 @@ public class PigLogDaoImpl implements PigLogDao {
 			shedLog = new ShedLog();
 			shedLog.setCreateTime(date);
 			shedLog.setModifyTime(date);
+			shedLog.setDate(date);
 			shedLog.setShedId(shedId);
 			shedLog.setIllDeliveryNumber(illDeliveryNumber);
 			shedLog.setDeadDeliveryNumber(deadDeliveryNumber);

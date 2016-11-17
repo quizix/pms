@@ -35,7 +35,6 @@ public class PigLogController {
 			produces=MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
 	public ActionResult addPigLog(
-			@RequestParam(required=false) Long pigId, 
 			@RequestParam int operation, @RequestParam int number,
 			@RequestParam(required=false) Long styIdFrom, @RequestParam(required=false) Long styIdTo,
 			@RequestParam Long userId, @RequestParam(required=false) Long purchaseOrderId,
@@ -59,6 +58,7 @@ public class PigLogController {
 		try {
 			pigLogDao.add(pigLog);
 		} catch (DbException e) {
+			e.printStackTrace();
 			result.setCode(-1);
 			result.setMessage(e.getMessage());
 		}

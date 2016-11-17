@@ -34,6 +34,8 @@ public class ShedLog {
 	@Column
 	private Date modifyTime;
 	
+	@Column
+	private Date date;
 	/**
      * 猪舍
      */
@@ -45,14 +47,19 @@ public class ShedLog {
     @Column
     private Long shedId;
 
+    @Column
     private int entryNumber;
 
+    @Column
     private int illDeliveryNumber;
 
+    @Column
     private int deadDeliveryNumber;
 
+    @Column
     private int healthyDeliveryNumber;
 
+    @Column
     private int stockNumber;
 
 	public Long getId() {
@@ -133,5 +140,13 @@ public class ShedLog {
 
 	public void setShedId(Long shedId) {
 		this.shedId = shedId;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
 }

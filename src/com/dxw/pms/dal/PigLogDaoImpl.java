@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.dxw.pms.models.PigLog;
+import com.dxw.pms.models.Shed;
 import com.dxw.pms.models.ShedLog;
 import com.dxw.pms.models.Sty;
 import com.pms.utils.TimeUtil;
@@ -22,6 +23,9 @@ public class PigLogDaoImpl implements PigLogDao {
 
 	@Autowired
 	StyDao styDao;
+	
+	@Autowired
+	ShedDao shedDao;
 	
 	@Autowired
 	ShedLogDao shedLogDao;
@@ -114,6 +118,7 @@ public class PigLogDaoImpl implements PigLogDao {
 		ShedLog shedLog = shedLogDao.findByShedIdAndDate(shedId, date);
 		
 		if(shedLog == null){
+			Shed shed = shedDao.findById(shedId);
 			shedLog = new ShedLog();
 			shedLog.setCreateTime(date);
 			shedLog.setModifyTime(date);
@@ -123,7 +128,7 @@ public class PigLogDaoImpl implements PigLogDao {
 			shedLog.setDeadDeliveryNumber(deadDeliveryNumber);
 			shedLog.setEntryNumber(entryNumber);
 			shedLog.setHealthyDeliveryNumber(heathyDeliveryNumber);
-			shedLog.setStockNumber(entryNumber-deadDeliveryNumber-illDeliveryNumber
+			shedLog.setStockNumber(shed.getStockNumber() + entryNumber-deadDeliveryNumber-illDeliveryNumber
 					-heathyDeliveryNumber);
 		}
 		else{

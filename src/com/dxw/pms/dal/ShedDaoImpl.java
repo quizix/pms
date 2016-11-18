@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.dxw.pms.models.Shed;
 import com.dxw.pms.models.Sty;
 
 @Repository
@@ -28,6 +29,14 @@ public class ShedDaoImpl implements ShedDao {
 		
 		Query query = session.createQuery("from Shed");
 		return query.list();
+	}
+
+
+	@Override
+	public Shed findById(Long id) {
+		Session session = 
+				sessionFactory.getCurrentSession();
+		return (Shed) session.get(Shed.class, id);
 	}
 
 }

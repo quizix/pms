@@ -87,4 +87,16 @@ public class Shed {
 	public void setCode(String code) {
 		this.code = code;
 	}
+
+
+	public int getStockNumber() {
+		if( this.sties == null)
+            return 0;
+
+        int stockNumber = 0;
+        for( Sty sty: this.sties){
+            stockNumber += sty.getCurrentNumber();
+        }
+        return stockNumber;
+	}
 }

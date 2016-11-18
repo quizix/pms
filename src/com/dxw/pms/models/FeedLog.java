@@ -50,6 +50,14 @@ public class FeedLog {
     @Column(name = "userId")
     private Long userId;
     
+    @ManyToOne()
+    @JoinColumn(name="feedId",
+    		insertable = false, updatable = false)
+    private Feed feed;
+    
+    @Column(name = "feedId")
+    private Long feedId;
+    
     @Column(name="purchaseOrderId")
     private Long purchaseOrderId;
 
@@ -129,6 +137,22 @@ public class FeedLog {
 
 	public void setPurchaseOrderId(Long purchaseOrderId) {
 		this.purchaseOrderId = purchaseOrderId;
+	}
+
+	public Feed getFeed() {
+		return feed;
+	}
+
+	public void setFeed(Feed feed) {
+		this.feed = feed;
+	}
+
+	public Long getFeedId() {
+		return feedId;
+	}
+
+	public void setFeedId(Long feedId) {
+		this.feedId = feedId;
 	}
 
 }

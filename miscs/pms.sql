@@ -184,7 +184,7 @@ CREATE TABLE `erp_feed_warehouse` (
 
 LOCK TABLES `erp_feed_warehouse` WRITE;
 /*!40000 ALTER TABLE `erp_feed_warehouse` DISABLE KEYS */;
-INSERT INTO `erp_feed_warehouse` VALUES (1,'w1-1','2016-08-22 15:58:43','2016-08-22 15:58:43','料仓1-1',1,NULL,30,NULL,1,NULL),(2,'w1-2','2016-08-22 15:58:43','2016-08-22 15:58:43','料仓1-2',2,NULL,0,NULL,2,NULL),(3,'w1-3','2016-08-22 15:58:43','2016-08-22 15:58:43','料仓1-3',3,NULL,0,NULL,3,NULL),(4,'w1-4','2016-08-22 15:58:43','2016-08-22 15:58:43','料仓1-4',4,NULL,0,NULL,4,NULL);
+INSERT INTO `erp_feed_warehouse` VALUES (1,'w1-1','2016-08-22 15:58:43','2016-08-22 15:58:43','料仓1-1',1,NULL,130,NULL,1,NULL),(2,'w1-2','2016-08-22 15:58:43','2016-08-22 15:58:43','料仓1-2',2,NULL,0,NULL,2,NULL),(3,'w1-3','2016-08-22 15:58:43','2016-08-22 15:58:43','料仓1-3',3,NULL,0,NULL,3,NULL),(4,'w1-4','2016-08-22 15:58:43','2016-08-22 15:58:43','料仓1-4',4,NULL,0,NULL,4,NULL);
 /*!40000 ALTER TABLE `erp_feed_warehouse` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -352,6 +352,48 @@ LOCK TABLES `erp_privilege` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `erp_purchase_order`
+--
+
+DROP TABLE IF EXISTS `erp_purchase_order`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `erp_purchase_order` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `code` varchar(45) NOT NULL,
+  `type` smallint(6) NOT NULL,
+  `quantity` float NOT NULL,
+  `weight` float DEFAULT NULL,
+  `createTime` datetime NOT NULL,
+  `modifyTime` datetime NOT NULL,
+  `executionTime` datetime DEFAULT NULL,
+  `executionImg` varchar(512) DEFAULT NULL,
+  `pigId` bigint(20) DEFAULT NULL,
+  `vendorId` bigint(20) DEFAULT NULL,
+  `feedId` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`),
+  UNIQUE KEY `code_UNIQUE` (`code`),
+  KEY `fkPigId_idx` (`pigId`),
+  KEY `fkFeedId_idx` (`feedId`),
+  KEY `fkVendorId_idx` (`vendorId`),
+  CONSTRAINT `fkFeedId` FOREIGN KEY (`feedId`) REFERENCES `erp_feed` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fkPigId` FOREIGN KEY (`pigId`) REFERENCES `erp_pig` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fkVendorId` FOREIGN KEY (`vendorId`) REFERENCES `erp_vendor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `erp_purchase_order`
+--
+
+LOCK TABLES `erp_purchase_order` WRITE;
+/*!40000 ALTER TABLE `erp_purchase_order` DISABLE KEYS */;
+INSERT INTO `erp_purchase_order` VALUES (1,'PO-1001',1,1200,5,'2016-11-16 00:00:00','2016-11-16 00:00:00','2016-11-17 16:05:39','F:\\projects\\java\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\pms\\WEB-INF\\upload\\po\\2016-11-17\\8dbb07be-3934-44ac-9080-0c92be6b8c17.jpg',1,1,1);
+/*!40000 ALTER TABLE `erp_purchase_order` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `erp_role`
 --
 
@@ -466,7 +508,7 @@ CREATE TABLE `erp_sty` (
 
 LOCK TABLES `erp_sty` WRITE;
 /*!40000 ALTER TABLE `erp_sty` DISABLE KEYS */;
-INSERT INTO `erp_sty` VALUES (1,'sty1-1','2016-08-22 10:53:28',200,0,'2016-08-22 10:53:28','A01',1,1),(4,'sty1-2','2016-08-22 12:14:18',80,0,'2016-08-22 12:14:18','B01',2,1),(5,'sty1-3','2016-08-22 12:18:07',100,0,'2016-08-22 12:18:07','C01',4,1),(6,'sty1-4','2016-08-22 12:18:07',90,0,'2016-08-22 12:18:07','D01',4,1),(7,'sty1-5','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','A02',5,1),(8,'sty1-6','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','B02',6,1),(9,'sty1-7','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','C02',7,1),(10,'sty1-8','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','D02',8,1),(23,'sty1-9','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','E01',1,2),(24,'sty1-10','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','F01',1,2),(25,'sty1-11','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','G01',1,2),(26,'sty1-12','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','H01',1,2);
+INSERT INTO `erp_sty` VALUES (1,'sty1-1','2016-08-22 10:53:28',1385,0,'2016-08-22 10:53:28','A01',1,1),(4,'sty1-2','2016-08-22 12:14:18',83,0,'2016-08-22 12:14:18','B01',2,1),(5,'sty1-3','2016-08-22 12:18:07',100,0,'2016-08-22 12:18:07','C01',4,1),(6,'sty1-4','2016-08-22 12:18:07',90,0,'2016-08-22 12:18:07','D01',4,1),(7,'sty1-5','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','A02',5,1),(8,'sty1-6','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','B02',6,1),(9,'sty1-7','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','C02',7,1),(10,'sty1-8','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','D02',8,1),(23,'sty1-9','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','E01',1,2),(24,'sty1-10','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','F01',1,2),(25,'sty1-11','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','G01',1,2),(26,'sty1-12','2016-08-22 12:18:07',0,0,'2016-08-22 12:18:07','H01',1,2);
 /*!40000 ALTER TABLE `erp_sty` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -698,21 +740,16 @@ CREATE TABLE `mes_feed_log` (
   `quantity` float NOT NULL,
   `operation` smallint(6) NOT NULL,
   `userId` bigint(20) DEFAULT NULL,
-  `vendorId` bigint(20) DEFAULT NULL,
   `warehouseId` bigint(20) DEFAULT NULL,
-  `feedId` bigint(20) DEFAULT NULL,
   `createTime` datetime NOT NULL,
   `modifyTime` datetime NOT NULL,
+  `purchaseOrderId` bigint(20) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `feed_log_user_pk_idx` (`userId`),
-  KEY `feed_log_vendor_pk_idx` (`vendorId`),
-  KEY `feed_log_feed_pk_idx` (`feedId`),
   KEY `feed_log_warehouse_pk_idx` (`warehouseId`),
-  CONSTRAINT `feed_log_feed_pk` FOREIGN KEY (`feedId`) REFERENCES `erp_feed` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `feed_log_user_pk` FOREIGN KEY (`userId`) REFERENCES `erp_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `feed_log_vendor_pk` FOREIGN KEY (`vendorId`) REFERENCES `erp_vendor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `feed_log_warehouse_pk` FOREIGN KEY (`warehouseId`) REFERENCES `erp_feed_warehouse` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -721,7 +758,7 @@ CREATE TABLE `mes_feed_log` (
 
 LOCK TABLES `mes_feed_log` WRITE;
 /*!40000 ALTER TABLE `mes_feed_log` DISABLE KEYS */;
-INSERT INTO `mes_feed_log` VALUES (4,10,1,1,1,1,1,'2016-11-01 10:56:10','2016-11-01 10:56:10'),(5,20,1,6,1,1,1,'2016-11-02 16:23:13','2016-11-02 16:23:13');
+INSERT INTO `mes_feed_log` VALUES (4,10,1,1,1,'2016-11-01 10:56:10','2016-11-01 10:56:10',1),(5,20,1,6,1,'2016-11-02 16:23:13','2016-11-02 16:23:13',1),(6,100,1,1,1,'2016-11-17 16:17:36','2016-11-17 16:17:36',1);
 /*!40000 ALTER TABLE `mes_feed_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -973,23 +1010,21 @@ CREATE TABLE `mes_pig_log` (
   `userId` bigint(20) DEFAULT NULL,
   `styIdFrom` bigint(20) DEFAULT NULL,
   `styIdTo` bigint(20) DEFAULT NULL,
-  `vendorId` bigint(20) DEFAULT NULL,
   `createTime` datetime NOT NULL,
   `modifyTime` datetime NOT NULL,
-  `pigId` bigint(20) DEFAULT NULL,
   `detail` varchar(100) DEFAULT NULL,
+  `purchaseOrderId` bigint(20) DEFAULT NULL,
+  `weight` float DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `pig_log_user_pk_idx` (`userId`),
   KEY `pig_log_sty_from_fk_idx` (`styIdFrom`),
   KEY `pig_log_sty_to_fk_idx` (`styIdTo`),
-  KEY `pig_log_vendor_fk_idx` (`vendorId`),
-  KEY `pig_log_pig_fk_idx` (`pigId`),
-  CONSTRAINT `pig_log_pig_fk` FOREIGN KEY (`pigId`) REFERENCES `erp_pig` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  KEY `pig_log_purchase_order_fk_idx` (`purchaseOrderId`),
+  CONSTRAINT `pig_log_purchase_order_fk` FOREIGN KEY (`purchaseOrderId`) REFERENCES `erp_purchase_order` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `pig_log_sty_from_fk` FOREIGN KEY (`styIdFrom`) REFERENCES `erp_sty` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `pig_log_sty_to_fk` FOREIGN KEY (`styIdTo`) REFERENCES `erp_sty` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `pig_log_user_fk` FOREIGN KEY (`userId`) REFERENCES `erp_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `pig_log_vendor_fk` FOREIGN KEY (`vendorId`) REFERENCES `erp_vendor` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+  CONSTRAINT `pig_log_user_fk` FOREIGN KEY (`userId`) REFERENCES `erp_user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -998,7 +1033,7 @@ CREATE TABLE `mes_pig_log` (
 
 LOCK TABLES `mes_pig_log` WRITE;
 /*!40000 ALTER TABLE `mes_pig_log` DISABLE KEYS */;
-INSERT INTO `mes_pig_log` VALUES (14,100,1,1,NULL,1,2,'2016-11-01 10:25:42','2016-11-01 10:25:42',1,'入栏'),(15,100,1,6,NULL,1,2,'2016-11-02 16:19:46','2016-11-02 16:19:46',1,'入栏'),(16,80,1,6,NULL,4,1,'2016-11-02 16:21:04','2016-11-02 16:21:04',1,'入栏'),(17,100,1,6,NULL,5,2,'2016-11-02 16:21:44','2016-11-02 16:21:44',1,'入栏'),(18,90,1,6,NULL,6,2,'2016-11-02 16:22:10','2016-11-02 16:22:10',1,'入栏');
+INSERT INTO `mes_pig_log` VALUES (14,100,1,1,NULL,1,'2016-11-01 10:25:42','2016-11-01 10:25:42','入栏',NULL,NULL),(15,100,1,6,NULL,1,'2016-11-02 16:19:46','2016-11-02 16:19:46','入栏',NULL,NULL),(16,80,1,6,NULL,4,'2016-11-02 16:21:04','2016-11-02 16:21:04','入栏',NULL,NULL),(17,100,1,6,NULL,5,'2016-11-02 16:21:44','2016-11-02 16:21:44','入栏',NULL,NULL),(18,90,1,6,NULL,6,'2016-11-02 16:22:10','2016-11-02 16:22:10','入栏',NULL,NULL),(19,100,1,1,NULL,1,'2016-11-17 16:53:56','2016-11-17 16:53:56','入栏',1,5),(20,100,1,1,NULL,1,'2016-11-17 16:54:17','2016-11-17 16:54:17','入栏',1,5),(21,100,1,1,NULL,1,'2016-11-17 16:58:25','2016-11-17 16:58:25','入栏',1,5),(22,100,1,1,NULL,1,'2016-11-17 16:58:28','2016-11-17 16:58:28','入栏',1,5),(23,100,1,1,NULL,1,'2016-11-17 16:58:44','2016-11-17 16:58:44','入栏',1,5),(24,100,1,1,NULL,1,'2016-11-17 16:59:59','2016-11-17 16:59:59','入栏',1,5),(25,100,1,1,NULL,1,'2016-11-17 17:00:01','2016-11-17 17:00:01','入栏',1,5),(26,100,1,1,NULL,1,'2016-11-17 17:03:46','2016-11-17 17:03:46','入栏',1,5),(27,100,1,1,NULL,1,'2016-11-17 17:03:49','2016-11-17 17:03:49','入栏',1,5),(28,100,1,1,NULL,1,'2016-11-17 17:04:06','2016-11-17 17:04:06','入栏',1,5),(29,100,1,1,NULL,1,'2016-11-17 17:04:23','2016-11-17 17:04:23','入栏',1,5),(30,100,1,1,NULL,1,'2016-11-17 17:04:24','2016-11-17 17:04:24','入栏',1,5),(31,3,2,1,1,4,'2016-11-17 17:08:43','2016-11-17 17:08:43','从A01移到B01',NULL,NULL),(32,3,3,1,1,NULL,'2016-11-17 17:10:31','2016-11-17 17:10:31','健康猪出栏',NULL,NULL),(33,3,3,1,1,NULL,'2016-11-17 17:10:54','2016-11-17 17:10:54','健康猪出栏',NULL,NULL),(34,3,4,1,1,NULL,'2016-11-17 17:11:29','2016-11-17 17:11:29','病猪出栏',NULL,NULL),(35,3,5,1,1,NULL,'2016-11-17 17:11:50','2016-11-17 17:11:50','死猪出栏',NULL,NULL);
 /*!40000 ALTER TABLE `mes_pig_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1065,6 +1100,40 @@ CREATE TABLE `mes_production_instruction` (
 LOCK TABLES `mes_production_instruction` WRITE;
 /*!40000 ALTER TABLE `mes_production_instruction` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mes_production_instruction` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `mes_shed_log`
+--
+
+DROP TABLE IF EXISTS `mes_shed_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mes_shed_log` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `createTime` datetime NOT NULL,
+  `modifyTime` datetime NOT NULL,
+  `entryNumber` int(11) DEFAULT '0',
+  `illDeliveryNumber` int(11) DEFAULT '0',
+  `deadDeliveryNumber` int(11) DEFAULT '0',
+  `healthyDeliveryNumber` int(11) DEFAULT '0',
+  `stockNumber` int(11) NOT NULL DEFAULT '0',
+  `shedId` bigint(20) DEFAULT NULL,
+  `date` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sheId_idx` (`shedId`),
+  CONSTRAINT `fkShedId` FOREIGN KEY (`shedId`) REFERENCES `erp_shed` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mes_shed_log`
+--
+
+LOCK TABLES `mes_shed_log` WRITE;
+/*!40000 ALTER TABLE `mes_shed_log` DISABLE KEYS */;
+INSERT INTO `mes_shed_log` VALUES (9,'2016-11-17 00:00:00','2016-11-17 00:00:00',200,3,3,6,188,1,'2016-11-17 00:00:00');
+/*!40000 ALTER TABLE `mes_shed_log` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1217,6 +1286,10 @@ LOCK TABLES `mes_working_condition` WRITE;
 /*!40000 ALTER TABLE `mes_working_condition` DISABLE KEYS */;
 /*!40000 ALTER TABLE `mes_working_condition` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'erp'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1227,4 +1300,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-12  9:11:20
+-- Dump completed on 2016-11-18  8:32:59

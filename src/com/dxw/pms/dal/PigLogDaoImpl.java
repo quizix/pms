@@ -45,13 +45,12 @@ public class PigLogDaoImpl implements PigLogDao {
 			// 入栏，需要调整目标栏位的数量
 			{
 				Sty sty = styDao.findById(pigLog.getStyIdTo());
+				Long shedId = sty.getShedId();
+				addShedLog(shedId, date, pigLog.getNumber(), 0, 0, 0);
+				
 				sty.setCurrentNumber(sty.getCurrentNumber() + pigLog.getNumber());
 				session.persist(sty);
 				pigLog.setDetail("入栏");
-				
-				Long shedId = sty.getShedId();
-				
-				addShedLog(shedId, date, pigLog.getNumber(), 0, 0, 0);
 			}
 
 				break;
@@ -70,37 +69,36 @@ public class PigLogDaoImpl implements PigLogDao {
 				break;
 			case 3: {
 				Sty sty = styDao.findById(pigLog.getStyIdFrom());
+				Long shedId = sty.getShedId();
+				addShedLog(shedId, date, 0, 0, 0, pigLog.getNumber());
+				
 				sty.setCurrentNumber(sty.getCurrentNumber() - pigLog.getNumber());
 				session.persist(sty);
 				pigLog.setDetail("健康猪出栏");
 				
-				Long shedId = sty.getShedId();
 				
-				addShedLog(shedId, date, 0, 0, 0, pigLog.getNumber());
 			}
 				break;
 			case 4: {
 				Sty sty = styDao.findById(pigLog.getStyIdFrom());
+				Long shedId = sty.getShedId();
+				addShedLog(shedId, date, 0, 0, pigLog.getNumber(), 0);
+				
 				sty.setCurrentNumber(sty.getCurrentNumber() - pigLog.getNumber());
 				session.persist(sty);
 				pigLog.setDetail("病猪出栏");
-				
-				Long shedId = sty.getShedId();
-				
-				addShedLog(shedId, date, 0, 0, pigLog.getNumber(), 0);
 			}
 				break;
 			case 5:
 			// 出栏：需要调整源栏位的数量
 			{
 				Sty sty = styDao.findById(pigLog.getStyIdFrom());
+				Long shedId = sty.getShedId();
+				addShedLog(shedId, date, 0, pigLog.getNumber(), 0, 0);
+				
 				sty.setCurrentNumber(sty.getCurrentNumber() - pigLog.getNumber());
 				session.persist(sty);
 				pigLog.setDetail("死猪出栏");
-				
-				Long shedId = sty.getShedId();
-				
-				addShedLog(shedId, date, 0, pigLog.getNumber(), 0, 0);
 			}
 				break;
 			}

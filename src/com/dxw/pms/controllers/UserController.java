@@ -45,7 +45,7 @@ public class UserController {
 			@RequestParam String password){
 		ResultBean<User> result = new ResultBean<>();
 		User user = userDao.findByName(username);
-		String encrypedPassword = CryptoUtils.encode("cestquoi1314", password);
+		String encrypedPassword = CryptoUtils.encode(ENCRYPT_KEY, password);
 		if(user == null){
 			result.setResult(null);
 			result.setCode(ResultBean.RESULT_ERROR);

@@ -67,5 +67,6 @@ public class UserDaoImpl implements UserDao {
 				sessionFactory.getCurrentSession();
 		
 		session.update(user);
+		session.flush();
 	}
 }

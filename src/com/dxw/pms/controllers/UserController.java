@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.dxw.pms.beans.ActionResult;
 import com.dxw.pms.beans.LoginUser;
 import com.dxw.pms.beans.Result;
 import com.dxw.pms.beans.ResultBean;
@@ -64,26 +65,24 @@ public class UserController {
 		return result;
 	}
 	
-	//Url：/user/changePassword
+	//Url：/users/changePassword
 	//Parameters: username, passwordOld, passwordNew 
 	@RequestMapping(value="/changePassword", method=RequestMethod.POST, 
 			produces=MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public ResultBean<Result> changePassword(@RequestParam String username,
+	public ActionResult changePassword(@RequestParam String username,
 			@RequestParam String passwordOld, @RequestParam String passwordNew){
-		ResultBean<Result> bean = new ResultBean<>();
-		bean.setResult(null);
+		ActionResult bean = new ActionResult();
+		bean.setCode(ResultBean.RESULT_SUCCESS);
 		
 		User user = userDao.findByName(username);
 		String encrypedPasswordOld = CryptoUtils.encode(ENCRYPT_KEY, passwordOld);
 		if(user == null){
-			bean.setResult(null);
 			bean.setCode(ResultBean.RESULT_ERROR);
 			bean.setMessage("用户不存在!");
 		}
 		else{
 			if(!encrypedPasswordOld.equals(user.getPassword())){
-				bean.setResult(null);
 				bean.setCode(ResultBean.RESULT_ERROR);
 				bean.setMessage("旧密码不正确!");
 			}
